@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="來電送 CALL & DELIVER — 店家接單端，即時接收顧客訂單、推進配送階段。">
+  <title>來電送 — 店家接單</title>
+
+  <!-- Lucide 圖示（runtime 將 <i data-lucide> 換成 SVG） -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- 樣式：全站共用 + 本頁專屬 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/pages/order-accept.css">
+
+  <!-- file:// 開啟守衛：避免 ES Module 被 CORS 阻擋時無聲失敗 -->
+  <script src="./js/core/file-protocol-guard.js"></script>
+</head>
+<body>
+
+  <div id="page-order-accept" class="page page--order-accept">
+
+    <!-- 頂部品牌與頁面導覽列 -->
+    <header class="app-header">
+      <div class="app-header__inner">
+
+        <!-- 品牌（連結回首頁） -->
+        <a href="index.html" class="app-header__brand">
+          <img src="./assets/CoDeliver-logo-1020x1020px-20261021.svg" alt="來電送 Logo" class="app-logo">
+          <span class="brand-lockup">
+            <span class="app-brand">來電送</span>
+            <span class="app-brand__sub">CALL &amp; DELIVER</span>
+          </span>
+        </a>
+
+        <!-- 訂單單號切換器 -->
+        <div class="header-group">
+          <span class="header-group__label">單號：</span>
+          <div class="order-tabs" role="tablist" aria-label="訂單單號切換">
+            <button type="button" data-action="switch-order" data-index="0" id="mock-btn-0" class="order-tab is-active" aria-selected="true">#101</button>
+            <button type="button" data-action="switch-order" data-index="1" id="mock-btn-1" class="order-tab" aria-selected="false">#102</button>
+            <button type="button" data-action="switch-order" data-index="2" id="mock-btn-2" class="order-tab" aria-selected="false">#103</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main app-main--top">
+
+      <!-- 頂部副標列 -->
+      <div class="subhead">
+        <h2 class="subhead__title">
+          <i data-lucide="bell-ring" class="icon icon--xs icon--brand"></i> 店家接單通知
+        </h2>
+        <span id="order-status-badge" class="tag tag--brand">待接單</span>
+      </div>
+
+      <!-- 接單卡片 -->
+      <article class="order-card">
+
+        <!-- 頂部橫幅：你的單來囉！ -->
+        <div class="incoming-order-banner">
+          <div class="incoming-order-banner__title-row">
+            <i data-lucide="flame" class="icon icon--xl"></i>
+            <h1 class="incoming-order-banner__title">你的單來囉！</h1>
+          </div>
+          <div class="chip">
+            <i data-lucide="sparkles" class="icon icon--xs"></i>
+            <span id="order-store-name">禾風堂手作便當</span>
+            <span aria-hidden="true">•</span>
+            <span id="order-id" class="u-mono">單號 #101</span>
+          </div>
+        </div>
+
+        <!-- 內容雙欄 -->
+        <div class="order-card__body">
+
+          <!-- 左欄：配送時間、收件地址、顧客 -->
+          <div class="order-card__col order-card__col--left">
+
+            <!-- 幾點前送到 -->
+            <div class="info-tile info-tile--brand">
+              <div class="info-tile__icon info-tile__icon--brand">
+                <i data-lucide="clock" class="icon icon--md"></i>
+              </div>
+              <div class="info-tile__body">
+                <span class="info-tile__label">幾點前送到</span>
+                <p id="order-deliver-by" class="info-tile__value info-tile__value--xl"></p>
+              </div>
+            </div>
+
+            <!-- 收件地址 -->
+            <div class="info-tile">
+              <div class="info-tile__icon info-tile__icon--neutral">
+                <i data-lucide="map-pin" class="icon icon--md icon--brand"></i>
+              </div>
+              <div class="info-tile__body">
+                <span class="info-tile__label">收件地址</span>
+                <p id="order-address" class="info-tile__value"></p>
+              </div>
+            </div>
+
+            <!-- 顧客名 / 電話 -->
+            <div class="info-tile info-tile--last">
+              <div class="info-tile__icon info-tile__icon--neutral">
+                <i data-lucide="user-check" class="icon icon--md icon--brand"></i>
+              </div>
+              <div class="info-tile__body info-tile__row">
+                <div class="u-grow">
+                  <span class="info-tile__label">顧客名 / 電話</span>
+                  <p id="order-customer" class="info-tile__value u-truncate"></p>
+                </div>
+                <a id="order-customer-call" href="#" class="tile-action">
+                  <i data-lucide="phone" class="icon icon--xs"></i> 聯絡顧客
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 右欄：品項明細 + 應收總計 + 接受訂單按鈕 -->
+          <div class="order-card__col order-card__col--right">
+
+            <!-- 品項 / 數量 -->
+            <div class="info-tile info-tile--lg">
+              <div class="info-tile__icon info-tile__icon--neutral">
+                <i data-lucide="utensils" class="icon icon--md icon--brand"></i>
+              </div>
+              <div class="info-tile__body info-tile__stretch">
+                <div>
+                  <div class="items-head">
+                    <span class="items-head__label">品項 / 數量</span>
+                    <span id="order-total-qty" class="tag tag--neutral"></span>
+                  </div>
+                  <div id="order-items-list" class="items-list">
+                    <!-- 動態渲染品項與數量 -->
+                  </div>
+                </div>
+                <div class="items-total">
+                  <span class="items-total__label">應收總計（免外送費）</span>
+                  <span id="order-total-price" class="items-total__value"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底部行動按鈕 -->
+            <div class="order-actions">
+              <button type="button" id="btn-accept-order" data-action="accept-order" class="btn-accept">
+                <span class="btn-accept__badge">$</span>
+                <span id="btn-accept-text">接受訂單！</span>
+              </button>
+
+              <!-- 接單後：店家端可同步推進配送階段 -->
+              <div id="store-stage-controls" class="stage-controls hidden">
+                <span class="stage-controls__label">
+                  <i data-lucide="radar" class="icon icon--xs icon--brand"></i> 同步顧客端進度：
+                </span>
+                <div class="stage-controls__buttons">
+                  <button type="button" id="stage-btn-0" data-action="set-step" data-step="0" class="stage-btn">1. 店家接單</button>
+                  <button type="button" id="stage-btn-1" data-action="set-step" data-step="1" class="stage-btn">2. 已製作完成</button>
+                  <button type="button" id="stage-btn-2" data-action="set-step" data-step="2" class="stage-btn">3. 已送達</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </article>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="app-footer app-footer--bar">
+      <nav class="link-row" aria-label="頁面導覽">
+        <span>© 來電送 • 店家接單系統</span>
+        <span class="dot-sep" aria-hidden="true">|</span>
+        <a href="index.html" class="link-inline">顧客首頁</a>
+        <span aria-hidden="true">·</span>
+        <a href="user_order_track.html" class="link-inline">訂單追蹤</a>
+        <span aria-hidden="true">·</span>
+        <a href="order_accept.html" class="link-inline link-inline--current">店家接單</a>
+        <span aria-hidden="true">·</span>
+        <a href="controller.html" class="link-inline">後台主控台</a>
+      </nav>
+    </footer>
+  </div>
+
+  <!-- 已接單回饋彈窗 -->
+  <div id="modal-accepted" class="modal modal--blur hidden" role="dialog" aria-modal="true" aria-labelledby="modal-accepted-title">
+    <div class="accepted-panel">
+      <div class="accepted-panel__icon">
+        <i data-lucide="check-circle-2" class="icon icon--lg"></i>
+      </div>
+      <h3 id="modal-accepted-title" class="accepted-panel__title">已成功接受訂單！</h3>
+      <p class="accepted-panel__desc">已即時同步至顧客訂單追蹤頁面，請開始備餐</p>
+
+      <div id="modal-accepted-summary" class="accepted-panel__summary">
+        <!-- 動態填入接單摘要 -->
+      </div>
+
+      <div class="accepted-panel__actions">
+        <button type="button" data-action="close-accepted-modal" class="btn-confirm">
+          確認，開始備餐
+        </button>
+        <a href="user_order_track.html" class="btn-link">
+          <span>查看顧客端</span>
+          <i data-lucide="external-link" class="icon icon--xs"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/pages/order-accept.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="來電送 CALL & DELIVER — 顧客訂單追蹤，即時查看配送進度與訂單明細。">
+  <title>來電送 — 顧客訂單追蹤</title>
+
+  <!-- Lucide 圖示（runtime 將 <i data-lucide> 換成 SVG） -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- 樣式：全站共用 + 本頁專屬 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/pages/user-order-track.css">
+
+  <!-- file:// 開啟守衛：避免 ES Module 被 CORS 阻擋時無聲失敗 -->
+  <script src="./js/core/file-protocol-guard.js"></script>
+</head>
+<body>
+
+  <div id="page-user-track" class="page page--user-track">
+
+    <!-- 頂部品牌與頁面導覽列 -->
+    <header class="app-header">
+      <div class="app-header__inner">
+
+        <!-- 品牌（連結回首頁） -->
+        <a href="index.html" class="app-header__brand">
+          <img src="./assets/CoDeliver-logo-1020x1020px-20261021.svg" alt="來電送 Logo" class="app-logo">
+          <span class="brand-lockup">
+            <span class="app-brand">來電送</span>
+            <span class="app-brand__sub">CALL &amp; DELIVER</span>
+          </span>
+        </a>
+
+        <!-- 多筆訂單單號切換器 -->
+        <div class="header-group">
+          <span class="header-group__label">單號：</span>
+          <div id="user-order-tabs" class="order-tabs" role="tablist" aria-label="訂單單號切換">
+            <!-- 動態渲染單號切換按鈕 -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main app-main--top">
+
+      <!-- 頂部副標列 -->
+      <div class="subhead">
+        <h2 class="subhead__title">
+          <i data-lucide="radar" class="icon icon--xs icon--brand"></i> 訂單即時配送進度 (點擊節點可切換階段)
+        </h2>
+        <span id="track-stage-badge" class="tag tag--brand">店家接單</span>
+      </div>
+
+      <!-- 追蹤主卡片 -->
+      <article class="track-card">
+
+        <!-- 當前追蹤的店家與單號 -->
+        <div class="track-head">
+          <div class="track-head__store">
+            <span class="track-head__dot" aria-hidden="true"></span>
+            <span id="active-order-store" class="track-head__name">禾風堂手作便當</span>
+          </div>
+          <span id="track-order-id" class="track-head__order-id">單號 #101</span>
+        </div>
+
+        <!-- 三階段進度條 -->
+        <div class="stepper-wrap">
+          <div class="stepper" role="group" aria-label="配送進度階段">
+
+            <!-- 背景底線與動態進度填色線 -->
+            <div class="stepper__track" aria-hidden="true">
+              <div id="stepper-progress-bar" class="stepper__progress"></div>
+            </div>
+
+            <!-- 節點 1：店家接單 -->
+            <button type="button" data-action="set-track-step" data-step="0" class="step-node is-current" aria-label="階段 1：店家接單">
+              <span id="step-circle-0" class="step-node__circle">
+                <i data-lucide="clipboard-check" class="icon icon--xl"></i>
+              </span>
+              <span id="step-label-0" class="step-node__label">店家接單</span>
+            </button>
+
+            <!-- 節點 2：已製作完成 -->
+            <button type="button" data-action="set-track-step" data-step="1" class="step-node" aria-label="階段 2：已製作完成">
+              <span id="step-circle-1" class="step-node__circle">
+                <i data-lucide="utensils-crossed" class="icon icon--xl"></i>
+              </span>
+              <span id="step-label-1" class="step-node__label">已製作完成</span>
+            </button>
+
+            <!-- 節點 3：已送達 -->
+            <button type="button" data-action="set-track-step" data-step="2" class="step-node" aria-label="階段 3：已送達">
+              <span id="step-circle-2" class="step-node__circle">
+                <i data-lucide="package-check" class="icon icon--xl"></i>
+              </span>
+              <span id="step-label-2" class="step-node__label">已送達</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- 內容雙欄 -->
+        <div class="track-body">
+
+          <!-- 左欄：預計送達時間 + 回首頁 -->
+          <div class="track-col track-col--left">
+            <div class="eta-card">
+              <div class="eta-card__title">
+                <i data-lucide="clock" class="icon icon--sm icon--brand"></i>
+                <span id="eta-title">預計送達時間</span>
+              </div>
+              <p id="eta-time" class="eta-card__time">12:15 前送達</p>
+              <p id="eta-desc" class="eta-card__desc">店家已確認您的訂單，正用心準備餐點中</p>
+            </div>
+
+            <div class="home-cta">
+              <a href="index.html" class="btn-home">
+                <i data-lucide="home" class="icon icon--sm"></i>
+                <span>回首頁</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 右欄：訂單摘要折疊 -->
+          <div class="track-col track-col--right">
+            <div class="summary-box">
+              <button type="button" data-action="toggle-summary" class="summary-toggle" aria-controls="order-summary-panel" aria-expanded="false">
+                <span class="summary-toggle__label">
+                  <i data-lucide="receipt" class="icon icon--sm icon--brand"></i>
+                  <span>查看本次訂單明細（<span id="summary-store-brief">禾風堂手作便當</span>）</span>
+                </span>
+                <i id="summary-chevron" data-lucide="chevron-down" class="icon icon--sm summary-toggle__chevron"></i>
+              </button>
+
+              <!-- 折疊內容（預設隱藏） -->
+              <div id="order-summary-panel" class="summary-panel hidden">
+                <div class="summary-row">
+                  <span class="summary-row__label">訂購店家</span>
+                  <span id="summary-store-name" class="summary-row__value">禾風堂手作便當</span>
+                </div>
+                <div class="summary-row">
+                  <span class="summary-row__label">收件地址</span>
+                  <span id="summary-address" class="summary-row__value">台北市信義區松高路 11 號 5 樓</span>
+                </div>
+                <div class="summary-row">
+                  <span class="summary-row__label">收件人</span>
+                  <span id="summary-customer" class="summary-row__value">王小明 / 0912-345-678</span>
+                </div>
+                <div class="summary-items">
+                  <span class="summary-items__label">餐點品項 / 數量</span>
+                  <div id="summary-items-list" class="summary-items__list">
+                    <!-- 動態渲染餐點 -->
+                  </div>
+                </div>
+                <div class="summary-total">
+                  <span class="summary-total__label">總計金額（免外送費）</span>
+                  <span id="summary-total" class="summary-total__value">NT$ 375</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 手機版回首頁（桌機由左欄顯示） -->
+            <div class="home-cta--mobile">
+              <a href="index.html" class="btn-home">
+                <i data-lucide="home" class="icon icon--sm"></i>
+                <span>回首頁</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </article>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="app-footer app-footer--bar">
+      <nav class="link-row" aria-label="頁面導覽">
+        <span>© 來電送 • 準時專送</span>
+        <span class="dot-sep" aria-hidden="true">|</span>
+        <a href="index.html" class="link-inline">顧客首頁</a>
+        <span aria-hidden="true">·</span>
+        <a href="user_order_track.html" class="link-inline link-inline--current">訂單追蹤</a>
+        <span aria-hidden="true">·</span>
+        <a href="order_accept.html" class="link-inline">店家接單</a>
+        <span aria-hidden="true">·</span>
+        <a href="controller.html" class="link-inline">後台主控台</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script type="module" src="./js/pages/user-order-track.js"></script>
+</body>
+</html>

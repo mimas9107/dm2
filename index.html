@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="來電送 CALL & DELIVER — 午間專送外送平台，瀏覽店家、選購餐點、撥號下單。">
+  <title>來電送 — 首頁與店家介紹</title>
+
+  <!-- Lucide 圖示（runtime 將 <i data-lucide> 換成 SVG） -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- 樣式：全站共用 + 本頁專屬 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/pages/index.css">
+
+  <!-- file:// 開啟守衛：避免 ES Module 被 CORS 阻擋時無聲失敗 -->
+  <script src="./js/core/file-protocol-guard.js"></script>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 畫面 1：首頁                                                  -->
+  <!-- ============================================================ -->
+  <div id="page-home" class="page page--home">
+
+    <header class="app-header">
+      <div class="app-header__inner">
+
+        <!-- 品牌識別（點擊回首頁） -->
+        <div class="app-header__brand" data-action="go-home">
+          <img src="./assets/CoDeliver-logo-1020x1020px-20261021.svg" alt="來電送 Logo" class="app-logo">
+          <div class="brand-lockup">
+            <span class="app-brand">來電送</span>
+            <span class="app-brand__sub">CALL &amp; DELIVER</span>
+          </div>
+        </div>
+
+        <!-- 角色入口 -->
+        <nav class="app-header__nav" aria-label="角色切換">
+          <a id="nav-user-track" href="user_order_track.html" class="app-navlink app-navlink--brand app-navlink--shadow">
+            <i data-lucide="radar" class="icon icon--xs icon--brand"></i>
+            <span>訂單追蹤</span>
+          </a>
+          <a id="nav-store-order" href="order_accept.html" class="app-navlink app-navlink--muted app-navlink--shadow">
+            <i data-lucide="clipboard-list" class="icon icon--xs icon--brand"></i>
+            <span>店家接單</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="home-intro">
+        <h2 class="section-heading">
+          <i data-lucide="sparkles" class="icon icon--xs icon--brand"></i> 今日熱門推薦 (點擊進入店家)
+        </h2>
+        <span id="carousel-indicator" class="badge badge--brand badge--mono">1 / 3</span>
+      </div>
+
+      <!-- 輪播卡片 -->
+      <article class="carousel">
+
+        <!-- 左欄：主視覺 -->
+        <div class="carousel__media" data-action="open-current-restaurant">
+          <img id="carousel-img" src="" alt="菜色照片" class="carousel__img">
+          <div class="carousel__scrim" aria-hidden="true"></div>
+
+          <span id="carousel-tag" class="carousel__tag">人氣招牌</span>
+
+          <div class="carousel__arrows">
+            <button type="button" data-action="prev-slide" class="carousel__arrow" aria-label="上一張">
+              <i data-lucide="chevron-left" class="icon icon--md"></i>
+            </button>
+            <button type="button" data-action="next-slide" class="carousel__arrow" aria-label="下一張">
+              <i data-lucide="chevron-right" class="icon icon--md"></i>
+            </button>
+          </div>
+
+          <p id="carousel-dish" class="carousel__dish"></p>
+        </div>
+
+        <!-- 右欄：資訊與操作 -->
+        <div class="carousel__body">
+          <div class="carousel__head">
+            <div class="carousel__title-row" data-action="open-current-restaurant">
+              <h3 id="carousel-title" class="carousel__title"></h3>
+              <span id="carousel-price" class="carousel__price"></span>
+            </div>
+
+            <p id="carousel-desc" class="carousel__desc u-clamp-1 u-clamp-3-md"></p>
+
+            <ul class="meta-row meta-row--tight">
+              <li class="meta meta--rating">
+                <i data-lucide="star" class="icon icon--xs"></i>
+                <span id="carousel-rating">4.9</span>
+              </li>
+              <li class="meta__dot" aria-hidden="true">•</li>
+              <li id="carousel-time" class="meta">
+                <i data-lucide="clock" class="icon icon--xs"></i> 20-30 分
+              </li>
+              <li class="meta__dot" aria-hidden="true">•</li>
+              <li><span id="carousel-min" class="tag tag--neutral"></span></li>
+            </ul>
+          </div>
+
+          <div class="carousel__actions">
+            <button type="button" data-action="open-current-restaurant" class="btn btn--primary btn--full">
+              <i data-lucide="utensils" class="icon icon--sm"></i> 查看店家與菜單
+            </button>
+
+            <div class="carousel__dots" role="tablist" aria-label="輪播頁面">
+              <button type="button" data-action="go-slide" data-index="0" class="indicator-bar" aria-label="第 1 張"></button>
+              <button type="button" data-action="go-slide" data-index="1" class="indicator-bar" aria-label="第 2 張"></button>
+              <button type="button" data-action="go-slide" data-index="2" class="indicator-bar" aria-label="第 3 張"></button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer class="app-footer app-footer--bordered">
+      <nav class="link-row" aria-label="平台資訊">
+        <button type="button" data-action="open-cms" data-key="terms" class="link-inline">服務條款</button>
+        <span class="dot-sep" aria-hidden="true">•</span>
+        <button type="button" data-action="open-cms" data-key="support" class="link-inline">客服說明</button>
+        <span class="dot-sep" aria-hidden="true">•</span>
+        <button type="button" data-action="open-cms" data-key="intro" class="link-inline">使用介紹</button>
+        <span class="dot-sep" aria-hidden="true">•</span>
+        <button type="button" data-action="open-cms" data-key="faq" class="link-inline">常用問答</button>
+      </nav>
+      <nav class="link-row link-row--muted" aria-label="頁面導覽">
+        <span>© 來電送 • 準時專送</span>
+        <span class="dot-sep" aria-hidden="true">|</span>
+        <a href="index.html" class="link-inline link-inline--current">顧客首頁</a>
+        <span aria-hidden="true">·</span>
+        <a href="user_order_track.html" class="link-inline">訂單追蹤</a>
+        <span aria-hidden="true">·</span>
+        <a href="order_accept.html" class="link-inline">店家接單</a>
+        <span aria-hidden="true">·</span>
+        <a href="controller.html" class="link-inline">後台主控台</a>
+      </nav>
+    </footer>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 畫面 2：店家介紹與菜單                                        -->
+  <!-- ============================================================ -->
+  <div id="page-detail" class="page page--detail hidden">
+
+    <header class="app-header app-header--flat">
+      <div class="detail-bar">
+        <button type="button" data-action="go-home" class="icon-btn icon-btn--neutral" aria-label="返回首頁">
+          <i data-lucide="arrow-left" class="icon icon--md"></i>
+        </button>
+        <span class="detail-bar__title">店家介紹與菜單</span>
+        <button type="button" data-action="focus-cart-bottom" class="icon-btn icon-btn--brand" aria-label="前往購物車">
+          <i data-lucide="truck" class="icon icon--md"></i>
+          <span id="detail-cart-badge" class="badge badge--brand badge--count hidden">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main app-main--top">
+      <div class="detail-grid">
+
+        <!-- 左欄：店家形象與資訊 -->
+        <section class="store-card">
+          <div class="store-card__hero">
+            <img id="detail-hero-img" src="" alt="店家大圖" class="store-card__img">
+            <div class="store-card__scrim" aria-hidden="true"></div>
+            <div class="store-card__hero-text">
+              <span id="detail-tag" class="tag tag--brand">精選餐廳</span>
+              <h1 id="detail-name" class="store-card__name"></h1>
+            </div>
+          </div>
+
+          <div class="store-card__info">
+            <!-- 門市地址 -->
+            <div class="info-box">
+              <i data-lucide="map-pin" class="icon icon--sm icon--brand info-box__icon"></i>
+              <div class="u-grow">
+                <span class="info-box__label">店家門市地址</span>
+                <span id="detail-address" class="info-box__value"></span>
+              </div>
+            </div>
+
+            <ul class="meta-row">
+              <li class="meta meta--rating">
+                <i data-lucide="star" class="icon icon--xs"></i>
+                <span id="detail-rating">4.9</span>
+              </li>
+              <li class="meta">
+                <i data-lucide="clock" class="icon icon--xs"></i>
+                <span id="detail-hours">10:30 - 13:30</span>
+              </li>
+              <li class="meta">
+                <i data-lucide="phone" class="icon icon--xs"></i>
+                <span id="detail-phone">02-2398-1122</span>
+              </li>
+            </ul>
+
+            <!-- 最低外送要求 -->
+            <div class="min-order">
+              <div class="min-order__left">
+                <div class="min-order__icon">
+                  <i data-lucide="package-check" class="icon icon--sm"></i>
+                </div>
+                <div>
+                  <span class="min-order__label">最低外送數量</span>
+                  <span id="detail-min-text" class="min-order__value">滿 3 份送</span>
+                </div>
+              </div>
+              <span id="detail-store-status-tag" class="tag tag--outline">免外送費</span>
+            </div>
+          </div>
+
+          <!-- 外送範圍限制遮罩 -->
+          <div id="range-mask" class="range-mask out-of-range-mask hidden">
+            <div class="range-mask__panel">
+              <div class="range-mask__icon">
+                <i data-lucide="map-pin-off" class="icon icon--md"></i>
+              </div>
+              <h3 class="range-mask__title">超出外送範圍</h3>
+              <p class="range-mask__desc">
+                您的位置超出本店午餐外送半徑，目前無法提供送餐服務。
+              </p>
+              <button type="button" data-action="toggle-range" class="btn btn--dark btn--full btn--sm">
+                切換回範圍內測試
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 右欄：菜單 -->
+        <section class="menu-column">
+          <div class="home-intro">
+            <h2 class="section-heading">
+              <i data-lucide="book-open" class="icon icon--xs icon--brand"></i> 今日供應菜單
+            </h2>
+            <span id="customer-identity-hint" class="section-note">訂餐人：王小明</span>
+          </div>
+          <div id="detail-menu-list" class="menu-list">
+            <!-- 菜單卡片由 JS 動態渲染 -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer app-footer--plain">
+      <nav class="link-row link-row--muted" aria-label="頁面導覽">
+        <span>© 來電送</span>
+        <span aria-hidden="true">|</span>
+        <a href="index.html" class="link-inline link-inline--current">顧客首頁</a>
+        <span aria-hidden="true">·</span>
+        <a href="user_order_track.html" class="link-inline">訂單追蹤</a>
+        <span aria-hidden="true">·</span>
+        <a href="order_accept.html" class="link-inline">店家接單</a>
+        <span aria-hidden="true">·</span>
+        <a href="controller.html" class="link-inline">後台主控台</a>
+      </nav>
+    </footer>
+
+    <!-- 底部固定結帳列 -->
+    <div class="checkout-bar">
+      <div class="checkout-bar__inner">
+        <div class="checkout-bar__summary">
+          <div class="checkout-bar__icon">
+            <i data-lucide="truck" class="icon icon--md"></i>
+          </div>
+          <div>
+            <div class="checkout-bar__count">已選 <span id="cart-count" class="checkout-bar__count-value">0</span> 份</div>
+            <div class="checkout-bar__price u-mono">NT$ <span id="cart-price">0</span></div>
+          </div>
+        </div>
+
+        <button type="button" id="btn-buy" data-action="handle-buy" class="btn btn--primary btn--grow">
+          <i data-lucide="phone-outgoing" class="icon icon--sm"></i>
+          <span id="btn-buy-text">立即來電訂餐</span>
+        </button>
+      </div>
+      <p id="cart-warning" class="checkout-bar__warning hidden">
+        ⚠️ 尚未達起送門檻（還差 <span id="need-more-count">0</span> 份）
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 來電下單確認彈窗                                              -->
+  <!-- ============================================================ -->
+  <div id="modal-call" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-call-title">
+    <div class="modal__panel modal__panel--sm">
+      <div class="modal__icon modal__icon--brand">
+        <i data-lucide="phone-call" class="icon icon--lg"></i>
+      </div>
+      <h3 id="modal-call-title" class="modal__title">確認撥打訂餐？</h3>
+
+      <div class="form-block">
+        <div class="form-row">
+          <label for="order-customer-select" class="form-row__label">訂餐顧客：</label>
+          <select id="order-customer-select" class="field"></select>
+        </div>
+        <div class="form-row">
+          <label for="order-address-input" class="form-row__label">外送地址：</label>
+          <input id="order-address-input" type="text" value="台北市信義區松高路 11 號 5 樓" class="field">
+        </div>
+      </div>
+
+      <p id="modal-desc" class="modal__note"></p>
+
+      <p id="modal-blacklist-alert" class="alert alert--warning">
+        📌 提醒：送出即不可改單/棄單。
+      </p>
+
+      <div class="modal__actions">
+        <button type="button" data-action="close-call-modal" class="btn btn--ghost-neutral">
+          取消
+        </button>
+        <button type="button" id="modal-call-btn" data-action="submit-order" class="btn btn--primary btn--raised">
+          <i data-lucide="phone" class="icon icon--sm"></i> 撥號下單
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 平台條款 / 客服說明 / 使用介紹 / 常用問答 檢視彈窗            -->
+  <!-- ============================================================ -->
+  <div id="modal-cms-info" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-cms-title">
+    <div class="modal__panel modal__panel--md">
+      <div class="modal__head">
+        <h3 id="modal-cms-title" class="modal__title modal__title--flush">服務條款</h3>
+        <span id="modal-cms-updated" class="modal__timestamp"></span>
+      </div>
+      <div id="modal-cms-tabs" class="cms-tabs"></div>
+      <div id="modal-cms-body" class="cms-body"></div>
+      <button type="button" data-action="close-cms-modal" class="btn btn--primary btn--full btn--block">
+        關閉
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="./js/pages/index.js"></script>
+</body>
+</html>

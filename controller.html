@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="來電送 CALL & DELIVER — 後端營運管理主控台，管理店家、顧客與平台條款。">
+  <title>來電送 — 後端主控台 Dashboard</title>
+
+  <!-- Lucide 圖示（runtime 將 <i data-lucide> 換成 SVG） -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- 樣式：全站共用 + 本頁專屬 -->
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/pages/controller.css">
+
+  <!-- file:// 開啟守衛：避免 ES Module 被 CORS 阻擋時無聲失敗 -->
+  <script src="./js/core/file-protocol-guard.js"></script>
+</head>
+<body>
+
+  <div id="page-controller" class="page page--controller">
+
+    <!-- 頂部品牌與統計導覽列 -->
+    <header class="app-header">
+      <div class="app-header__inner">
+
+        <!-- 品牌（連結回首頁） -->
+        <a href="index.html" class="app-header__brand">
+          <img src="./assets/CoDeliver-logo-1020x1020px-20261021.svg" alt="來電送 Logo" class="app-logo">
+          <span class="brand-lockup">
+            <span class="app-brand">來電送</span>
+            <span class="app-brand__sub">CALL &amp; DELIVER</span>
+          </span>
+        </a>
+
+        <!-- 主控台核心統計指標 -->
+        <div class="stat-group">
+          <div class="stat-pill stat-pill--brand">
+            <i data-lucide="store" class="icon icon--sm icon--brand"></i>
+            <span class="stat-pill__label">店家數量：</span>
+            <span id="stat-store-count" class="stat-pill__value stat-pill__value--brand">3</span>
+          </div>
+          <div class="stat-pill">
+            <i data-lucide="users" class="icon icon--sm u-text-muted"></i>
+            <span class="stat-pill__label">註冊顧客：</span>
+            <span id="stat-customer-count" class="stat-pill__value">4</span>
+          </div>
+          <div class="stat-pill">
+            <i data-lucide="shield-ban" class="icon icon--sm u-text-danger"></i>
+            <span class="stat-pill__label">黑名單數：</span>
+            <span id="stat-blacklist-count" class="stat-pill__value stat-pill__value--danger">1</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main app-main--top">
+
+      <!-- 標題 + 頁籤切換 -->
+      <div class="dash-head">
+        <div class="dash-head__titles">
+          <h1 class="dash-head__title">
+            <i data-lucide="layout-dashboard" class="icon icon--md icon--brand"></i>
+            <span>後端營運管理主控台</span>
+          </h1>
+          <p class="dash-head__hint">請點選右方或下方頁籤切換管理作業內容</p>
+        </div>
+
+        <!-- 三大頁籤 -->
+        <div role="tablist" aria-label="主控台作業頁籤" class="dash-tabs">
+          <button type="button" id="tab-btn-stores" role="tab" aria-selected="true"
+                  data-action="switch-tab" data-tab="stores" class="dash-tab">
+            <i data-lucide="store" class="icon icon--sm"></i>
+            <span>店家資料</span>
+          </button>
+          <button type="button" id="tab-btn-customers" role="tab" aria-selected="false"
+                  data-action="switch-tab" data-tab="customers" class="dash-tab">
+            <i data-lucide="users" class="icon icon--sm"></i>
+            <span>顧客資料</span>
+          </button>
+          <button type="button" id="tab-btn-cms" role="tab" aria-selected="false"
+                  data-action="switch-tab" data-tab="cms" class="dash-tab">
+            <i data-lucide="file-pen-line" class="icon icon--sm"></i>
+            <span>後台編輯</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 頁籤內容區 -->
+      <div class="u-grow-width">
+
+        <!-- 面板 1：店家資料 -->
+        <section id="tab-panel-stores" role="tabpanel" class="panel">
+          <div class="panel__head">
+            <div class="panel__head-left">
+              <div class="panel__icon">
+                <i data-lucide="store" class="icon icon--sm"></i>
+              </div>
+              <div>
+                <h2 class="panel__title">店家資料</h2>
+                <span class="panel__subtitle">合作餐廳音效、時段與接單權限管理</span>
+              </div>
+            </div>
+            <span id="panel-store-badge" class="tag tag--brand">啟用中 3 / 3</span>
+          </div>
+
+          <div class="panel__body">
+            <!-- 左側索引欄 -->
+            <div class="panel__aside">
+              <div>
+                <span class="aside__label">店家資</span>
+                <p class="aside__note">共 <b id="sidebar-store-total" class="u-strong">3</b> 間合作門市</p>
+              </div>
+              <div class="aside__stats">
+                <div class="aside__stat">
+                  <span>正常營業</span>
+                  <span id="sidebar-store-active" class="aside__stat-value aside__stat-value--success">3</span>
+                </div>
+                <div class="aside__stat">
+                  <span>已停權</span>
+                  <span id="sidebar-store-suspended" class="aside__stat-value aside__stat-value--muted">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右側主列表 -->
+            <div class="panel__main">
+              <table class="dash-table">
+                <thead>
+                  <tr>
+                    <th class="col-name">店家 / 音樂</th>
+                    <th class="col-mid">時間</th>
+                    <th class="col-mid">門檻</th>
+                    <th class="col-right">權限</th>
+                  </tr>
+                </thead>
+                <tbody id="store-table-body">
+                  <!-- 由 JS 動態渲染 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 面板 2：顧客資料 -->
+        <section id="tab-panel-customers" role="tabpanel" class="panel hidden">
+          <div class="panel__head">
+            <div class="panel__head-left">
+              <div class="panel__icon">
+                <i data-lucide="users" class="icon icon--sm"></i>
+              </div>
+              <div>
+                <h2 class="panel__title">顧客資料</h2>
+                <span class="panel__subtitle">訂餐紀錄、棄單次數與黑名單權限控管</span>
+              </div>
+            </div>
+            <span id="panel-customer-badge" class="tag tag--neutral">共 4 位顧客</span>
+          </div>
+
+          <div class="panel__body">
+            <!-- 左側索引欄 -->
+            <div class="panel__aside">
+              <div>
+                <span class="aside__label">顧客資</span>
+                <p class="aside__note">棄單多次紀錄者可列為黑名單並禁止其訂餐權限</p>
+              </div>
+              <div class="aside__stats">
+                <div class="aside__stat">
+                  <span>正常授權</span>
+                  <span id="sidebar-cust-normal" class="aside__stat-value aside__stat-value--success">3</span>
+                </div>
+                <div class="aside__stat">
+                  <span>黑名單</span>
+                  <span id="sidebar-cust-blacklisted" class="aside__stat-value aside__stat-value--danger">1</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右側主列表 -->
+            <div class="panel__main">
+              <table class="dash-table">
+                <thead>
+                  <tr>
+                    <th class="col-name">who (顧客)</th>
+                    <th class="col-mid">TEL</th>
+                    <th class="col-mid">訂單 / 棄單紀錄</th>
+                    <th class="col-right">權限</th>
+                  </tr>
+                </thead>
+                <tbody id="customer-table-body">
+                  <!-- 由 JS 動態渲染 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 面板 3：後台編輯 -->
+        <section id="tab-panel-cms" role="tabpanel" class="panel hidden">
+          <div class="panel__head">
+            <div class="panel__head-left">
+              <div class="panel__icon">
+                <i data-lucide="file-pen-line" class="icon icon--sm"></i>
+              </div>
+              <div>
+                <h2 class="panel__title">後台編輯</h2>
+                <span class="panel__subtitle">平台條款、客服說明、使用介紹與常用問答</span>
+              </div>
+            </div>
+            <span id="cms-active-label" class="tag tag--brand">條款</span>
+          </div>
+
+          <div class="panel__body">
+            <!-- 左側選單 -->
+            <div id="cms-nav-list" class="cms-nav">
+              <!-- 由 JS 動態渲染 4 個分類按鈕 -->
+            </div>
+
+            <!-- 右側文字內容與 Edit -->
+            <div class="cms-editor">
+              <div class="cms-frame">
+                <div class="cms-frame__head">
+                  <div class="cms-frame__title-row">
+                    <span class="cms-frame__dot" aria-hidden="true"></span>
+                    <h3 id="cms-content-title" class="cms-frame__title">服務條款</h3>
+                  </div>
+                  <div class="cms-frame__actions">
+                    <button type="button" id="btn-cms-cancel" data-action="cms-cancel" class="cms-btn cms-btn--cancel hidden">
+                      取消
+                    </button>
+                    <button type="button" id="btn-cms-edit" data-action="cms-toggle-edit" class="cms-btn cms-btn--edit">
+                      <i data-lucide="pen-line" class="icon icon--xs"></i>
+                      <span>Edit</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 檢視模式 -->
+                <div id="cms-view-box" class="cms-view"></div>
+
+                <!-- 編輯模式 -->
+                <textarea id="cms-edit-textarea" rows="8" class="field field--textarea hidden cms-textarea"></textarea>
+
+                <!-- 底部更新時間 -->
+                <div class="cms-frame__foot">
+                  <span id="cms-updated-at">最後更新：2026/10/21 16:50</span>
+                  <span id="cms-mode-hint" class="cms-mode-hint">檢視模式</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="app-footer app-footer--bar">
+      <nav class="link-row" aria-label="頁面導覽">
+        <span>© 來電送 • 後端管理主控台</span>
+        <span class="dot-sep" aria-hidden="true">|</span>
+        <a href="index.html" class="link-inline">顧客首頁</a>
+        <span aria-hidden="true">·</span>
+        <a href="user_order_track.html" class="link-inline">訂單追蹤</a>
+        <span aria-hidden="true">·</span>
+        <a href="order_accept.html" class="link-inline">店家接單</a>
+        <span aria-hidden="true">·</span>
+        <a href="controller.html" class="link-inline link-inline--current">後台主控台</a>
+        <span class="dot-sep" aria-hidden="true">|</span>
+        <button type="button" data-action="reset-prototype" class="reset-btn">重置預設測試資料</button>
+      </nav>
+    </footer>
+  </div>
+
+  <script type="module" src="./js/pages/controller.js"></script>
+</body>
+</html>
