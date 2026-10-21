@@ -3,8 +3,8 @@ name: "CHANGELOG.md"
 description: "來電送 CALL & DELIVER — 變更紀錄（版本單一事實來源）"
 created_date: "2026/10/21"
 modified_date: "2026/10/22"
-project_version: "2.1.0"
-document_version: "2.1.0"
+project_version: "2.1.2"
+document_version: "2.1.2"
 agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 ---
 
@@ -17,6 +17,29 @@ agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 - **MAJOR**：不相容的 API 變更
 - **MINOR**：向下相容的新功能
 - **PATCH**：向下相容的錯誤修正
+
+---
+
+## [2.1.2] — 2026/10/22
+
+### 修正
+- **店家接單頁頂部單號按鈕尺寸統一**：
+  - 移除 [`css/base.css`](file:///home/frontend-b/dm2/css/base.css) 中 `.order-tab` 於桌機斷點（`@media (min-width: 768px)`）對 padding 與 font-size 的放大規則。
+  - 將寬版（桌機）頁面的單號按鈕寬度與高度完全統一為手機頁面尺寸（高度 40px、內距 `var(--space-2) var(--space-3-5)`、字級 `var(--text-sm)` 14px），達成跨裝置視圖寬度一致。
+
+---
+
+## [2.1.1] — 2026/10/22
+
+### 修正
+- **訂單追蹤頁三階段節點改為唯讀**：
+  - 將 [`user_order_track.html`](file:///home/frontend-b/dm2/user_order_track.html) 內的三個配送進度節點由互動按鈕（`<button>`）重構為純語意容器（`<div>`），移除 `data-action="set-track-step"` 與 `data-step` 屬性。
+  - 修正顧客可手動點擊進度節點竄改配送進度的越權行為，配送狀態嚴格受店家接單與製作完成事件驅動。
+  - [`css/pages/user-order-track.css`](file:///home/frontend-b/dm2/css/pages/user-order-track.css) 調整 `.step-node` 游標為預設樣式（`cursor: default`），並移除無效之 `:hover` 與 `:focus-visible` 樣式。
+  - [`js/pages/user-order-track.js`](file:///home/frontend-b/dm2/js/pages/user-order-track.js) 移除 `setTrackStep` 與對應事件委派，由共用狀態庫 `subscribe` 跨分頁即時驅動 UI 渲染。
+
+### 驗證
+- `tests/smoke.mjs`：更新 S7 案例，驗證節點不可點擊且進度由訂單狀態切換驅動，14/14 案例（74/74 項檢查）全部通過。
 
 ---
 

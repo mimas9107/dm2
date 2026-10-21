@@ -117,25 +117,8 @@ function renderActiveOrder() {
 }
 
 /* --------------------------------------------------------------------------
-   配送階段
+   配送階段渲染（狀態由店家接單端推進，顧客端唯讀展示）
    -------------------------------------------------------------------------- */
-function setTrackStep(stepIdx) {
-  const step = Number(stepIdx);
-  if (!Number.isInteger(step) || step < 0 || step > 2) return;
-  if (!userOrdersData[currentOrderIdx]) return;
-
-  updateState(s => {
-    const target = s.orders[currentOrderIdx];
-    if (!target) return;
-    target.step = step;
-    if (step > 0) {
-      target.accepted = true;
-    }
-  });
-
-  applyTrackStepUI(step);
-}
-
 function applyTrackStepUI(stepIdx) {
   const activeOrder = userOrdersData[currentOrderIdx];
   if (!activeOrder) return;
@@ -217,7 +200,6 @@ function toggleOrderSummary() {
 function bindActions() {
   delegateActions({
     'switch-user-order': (el) => switchUserOrder(el.dataset.index),
-    'set-track-step': (el) => setTrackStep(el.dataset.step),
     'toggle-summary': () => toggleOrderSummary()
   });
 }

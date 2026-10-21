@@ -1320,14 +1320,6 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-@media (min-width: 768px) {
-  .order-tab {
-    min-height: 2.75rem; /* 44px */
-    padding: var(--space-2) var(--space-4-5);
-    font-size: var(--text-base);
-  }
-}
-
 /* --- 7.10 區塊副標列（標題 + 右側狀態標籤） --- */
 
 .subhead {

@@ -410,14 +410,22 @@ async function main() {
     });
 
     /* ---------------------------------------------------------------- S7 */
-    await testCase('S7 追蹤頁進度條與 ETA 隨階段變化', async () => {
+    await testCase('S7 追蹤頁節點唯讀不可點擊，配送進度由訂單狀態驅動', async () => {
       const track = await newTab('user_order_track.html');
-      await track.click('[data-action="set-track-step"][data-step="1"]');
+
+      // 驗證節點為唯讀，不存在可點擊之按鈕
+      assert('追蹤頁節點不含可點擊按鈕', await track.eval(`
+        return document.querySelectorAll('button[data-action="set-track-step"]').length === 0;
+      `));
+
+      // 切換至單號 #102（狀態為店家已製作完成 step: 1）
+      await track.click('[data-action="switch-user-order"][data-index="1"]');
       assertEqual('階段 1 進度條寬度', await track.eval("return document.getElementById('stepper-progress-bar').style.width;"), '50%');
       assertEqual('階段 1 徽章', await track.text('#track-stage-badge'), '已製作完成');
       assert('階段 1 ETA 含配送中', (await track.text('#eta-time')).includes('外送員配送中'), await track.text('#eta-time'));
 
-      await track.click('[data-action="set-track-step"][data-step="2"]');
+      // 切換至單號 #103（狀態為已送達 step: 2）
+      await track.click('[data-action="switch-user-order"][data-index="2"]');
       assertEqual('階段 2 進度條寬度', await track.eval("return document.getElementById('stepper-progress-bar').style.width;"), '100%');
       assertEqual('階段 2 徽章', await track.text('#track-stage-badge'), '已送達');
       assert('階段 2 ETA 含準時送達', (await track.text('#eta-time')).includes('準時送達'), await track.text('#eta-time'));
