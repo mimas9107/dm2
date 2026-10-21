@@ -155,16 +155,12 @@
                 <span id="btn-accept-text">接受訂單！</span>
               </button>
 
-              <!-- 接單後：店家端可同步推進配送階段 -->
+              <!-- 接單後：店家端通知製作完成 -->
               <div id="store-stage-controls" class="stage-controls hidden">
-                <span class="stage-controls__label">
-                  <i data-lucide="radar" class="icon icon--xs icon--brand"></i> 同步顧客端進度：
-                </span>
-                <div class="stage-controls__buttons">
-                  <button type="button" id="stage-btn-0" data-action="set-step" data-step="0" class="stage-btn">1. 店家接單</button>
-                  <button type="button" id="stage-btn-1" data-action="set-step" data-step="1" class="stage-btn">2. 已製作完成</button>
-                  <button type="button" id="stage-btn-2" data-action="set-step" data-step="2" class="stage-btn">3. 已送達</button>
-                </div>
+                <button type="button" id="btn-complete-making" data-action="complete-making" class="btn-complete-making">
+                  <i data-lucide="check-circle-2" class="icon icon--sm"></i>
+                  <span id="btn-complete-making-text">已製作完成</span>
+                </button>
               </div>
             </div>
 

@@ -3,8 +3,8 @@ name: "CHANGELOG.md"
 description: "來電送 CALL & DELIVER — 變更紀錄（版本單一事實來源）"
 created_date: "2026/10/21"
 modified_date: "2026/10/22"
-project_version: "2.0.0"
-document_version: "2.0.0"
+project_version: "2.1.0"
+document_version: "2.1.0"
 agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 ---
 
@@ -17,6 +17,30 @@ agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 - **MAJOR**：不相容的 API 變更
 - **MINOR**：向下相容的新功能
 - **PATCH**：向下相容的錯誤修正
+
+---
+
+## [2.1.0] — 2026/10/22
+
+### 新增
+- **首頁「探索所有合作店家」區塊**：在首頁輪播下方新增店家卡片網格（`.store-directory` / `.store-dir-card`），展示所有合作店家卡片，並支援點擊直接進入該店菜單選購。
+- **頂部導覽列「使用說明」快捷入口**：首頁 Header 右側新增「使用說明」按鈕（`#nav-instructions`），方便顧客進站後一鍵查閱操作流程。
+- **店家端單一行動按鈕【已製作完成】**：接單後底部控制列改為顯著的單一行動按鈕（`.btn-complete-making`），點擊後推進訂單階段至「已製作完成」並轉為鎖定狀態。
+
+### 變更
+- **店家訂單號按鈕（`.order-tab`）加大**：觸控高度提升至 40px~44px，內距與字級加大，符合無障礙觸控點選規範。
+- **合作店家陣容擴增至 7 間**：
+  - 新增：4. 炙焰炭烤燒肉丼、5. 越味南洋料理坊、6. 慢燉老火煲仔飯、7. 蔬心綠田植化素餐盒。
+  - 首頁輪播指示條改為依店家總數動態生成（1/7 ~ 7/7）。
+- **共用狀態庫欄位容錯優化**：[`js/core/store.js`](file:///home/frontend-b/dm2/js/core/store.js) 遷移邏輯增強，自動補齊新增的種子店家與過濾已廢棄之 CMS 條目。
+
+### 移除
+- **移除【來電送客服中心】/ 客服說明**：因營運團隊不提供此服務，自種子資料（`seed-data.js`）、前台頁尾連結、前台 CMS 彈窗及後台主控台編輯區中完全移除。
+- **店家接單頁底部移除「同步顧客端進度」字樣與 3 階段切換按鈕**。
+
+### 驗證
+- `tests/smoke.mjs`：14 個案例 / 73 項檢查，**全部通過**（包含新增之店家數與卡片斷言）。
+- `tests/class-audit.mjs --no-browser`：全站 362 個 class 靜態掃描正常無異常。
 
 ---
 

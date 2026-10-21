@@ -398,17 +398,50 @@
   }
 }
 
-/* 接單後階段控制列 */
+/* 接單後製作完成行動按鈕 */
 .stage-controls {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.btn-complete-making {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3);
-  border-radius: var(--radius-2xl);
-  background-color: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
+  padding: var(--space-3-5) var(--space-6);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-brick);
+  font-size: var(--text-base);
+  font-weight: var(--weight-black);
+  color: var(--color-brick);
+  background-color: var(--color-brick-tint);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast);
+}
+
+.btn-complete-making:hover {
+  background-color: var(--color-brick);
+  color: var(--color-text-invert);
+}
+
+.btn-complete-making:active {
+  transform: scale(0.98);
+}
+
+.btn-complete-making.is-completed {
+  background-color: var(--color-emerald-50);
+  border-color: var(--color-emerald-200);
+  color: var(--color-emerald-700);
+  cursor: default;
+  box-shadow: none;
+  transform: none;
 }
 
 .stage-controls__label {

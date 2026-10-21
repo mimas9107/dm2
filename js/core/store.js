@@ -120,9 +120,27 @@ function migrate(raw) {
     ? raw.stores.map(normalizeStore).filter(Boolean)
     : defaults.stores;
 
-  const cmsDocs = Array.isArray(raw.cmsDocs)
+  // 補齊可能新增的種子店家（保留既有店家設定）
+  const existingStoreIds = new Set(stores.map(s => s.id));
+  defaults.stores.forEach(s => {
+    if (!existingStoreIds.has(s.id)) {
+      stores.push(s);
+    }
+  });
+
+  const rawCmsDocs = Array.isArray(raw.cmsDocs)
     ? raw.cmsDocs.map(normalizeCmsDoc).filter(Boolean)
     : defaults.cmsDocs;
+
+  // 移除非法的 CMS 項目（如已不提供之客服說明）並補齊缺失項目
+  const allowedCmsKeys = new Set(defaults.cmsDocs.map(d => d.key));
+  const cmsDocs = rawCmsDocs.filter(d => allowedCmsKeys.has(d.key));
+  const existingCmsKeys = new Set(cmsDocs.map(d => d.key));
+  defaults.cmsDocs.forEach(d => {
+    if (!existingCmsKeys.has(d.key)) {
+      cmsDocs.push(d);
+    }
+  });
 
   // activeOrderId 必須指向一筆存在的訂單，否則退回第一筆
   let activeOrderId = String(raw.activeOrderId ?? '');

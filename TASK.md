@@ -3,8 +3,8 @@ name: "TASK.md"
 description: "來電送 CALL & DELIVER — 前端 B 組 Monolithic Script 重構執行任務"
 created_date: "2026/10/21"
 modified_date: "2026/10/22"
-project_version: "2.0.0"
-document_version: "2.0.0"
+project_version: "2.1.0"
+document_version: "2.1.0"
 agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 ---
 

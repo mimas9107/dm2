@@ -291,7 +291,7 @@ async function main() {
       const idx = await newTab('index.html');
       assert('頁面標題正確', (await idx.eval('return document.title;')) === '來電送 — 首頁與店家介紹');
       assertEqual('輪播標題', await idx.text('#carousel-title'), '禾風堂手作便當');
-      assertEqual('輪播指示條', await idx.text('#carousel-indicator'), '1 / 3');
+      assertEqual('輪播指示條', await idx.text('#carousel-indicator'), '1 / 7');
       assertEqual('主體背景色套用 base.css', await idx.eval("return getComputedStyle(document.body).backgroundColor;"), 'rgb(248, 246, 244)');
       assertEqual('品牌色權杖生效（.app-brand）', await idx.eval(`
         const e = document.querySelector('.app-brand');
@@ -301,6 +301,12 @@ async function main() {
         const i = document.querySelector('img[alt="來電送 Logo"]');
         return !!i && i.complete && i.naturalWidth > 0;
       `));
+      assert('首頁包含 7 家合作店家卡片', await idx.eval(`
+        return document.querySelectorAll('.store-dir-card').length === 7;
+      `));
+      assert('頂部包含使用說明入口', await idx.eval(`
+        return !!document.getElementById('nav-instructions');
+      `));
       assert('無 console 錯誤', idx.errors.length === 0, idx.errors.join(' | '));
     });
 
@@ -309,14 +315,14 @@ async function main() {
       const idx = await newTab('index.html');
       await idx.click('[data-action="next-slide"]');
       assertEqual('下一張後標題', await idx.text('#carousel-title'), '築地漁火日式定食');
-      assertEqual('下一張後指示條', await idx.text('#carousel-indicator'), '2 / 3');
+      assertEqual('下一張後指示條', await idx.text('#carousel-indicator'), '2 / 7');
 
       await idx.click('[data-action="prev-slide"]');
       assertEqual('上一張後標題', await idx.text('#carousel-title'), '禾風堂手作便當');
 
       await idx.click('[data-action="go-slide"][data-index="2"]');
       assertEqual('指示條點擊第 3 張', await idx.text('#carousel-title'), '青嵐健康水煮餐');
-      assertEqual('指示條數字', await idx.text('#carousel-indicator'), '3 / 3');
+      assertEqual('指示條數字', await idx.text('#carousel-indicator'), '3 / 7');
     });
 
     /* ---------------------------------------------------------------- S3 */
@@ -387,7 +393,7 @@ async function main() {
     });
 
     /* ---------------------------------------------------------------- S6 */
-    await testCase('S6 店家接單頁接受訂單 + 推進 3 階段', async () => {
+    await testCase('S6 店家接單頁接受訂單 + 推進至已製作完成', async () => {
       const accept = await newTab('order_accept.html');
       assertEqual('接單頁初始狀態', await accept.text('#order-status-badge'), '🔔 待接單 (響鈴提醒中)');
 
@@ -396,11 +402,10 @@ async function main() {
       assert('訂單摘要彈窗開啟', await accept.eval("return !document.getElementById('modal-accepted').classList.contains('hidden');"));
       await accept.click('[data-action="close-accepted-modal"]');
 
-      await accept.click('[data-action="set-step"][data-step="1"]');
-      assertEqual('推進到階段 2', await accept.text('#order-status-badge'), '已製作完成 • 配送中');
-
-      await accept.click('[data-action="set-step"][data-step="2"]');
-      assertEqual('推進到階段 3', await accept.text('#order-status-badge'), '已送達完成');
+      assert('已製作完成按鈕可見', await accept.eval("return !document.getElementById('store-stage-controls').classList.contains('hidden');"));
+      await accept.click('[data-action="complete-making"]');
+      assertEqual('推進到階段 2（已製作完成）', await accept.text('#order-status-badge'), '已製作完成 • 配送中');
+      assert('按鈕已為完成禁用狀態', await accept.eval("return document.getElementById('btn-complete-making').disabled;"));
       assert('無 console 錯誤', accept.errors.length === 0, accept.errors.join(' | '));
     });
 
@@ -423,7 +428,7 @@ async function main() {
       const ctl = await newTab('controller.html');
       const idx = await newTab('index.html');
 
-      assertEqual('主控台店家數', await ctl.text('#stat-store-count'), '3');
+      assertEqual('主控台店家數', await ctl.text('#stat-store-count'), '7');
       assertEqual('主控台停權數', await ctl.text('#sidebar-store-suspended'), '0');
 
       // 停權第 1 間店家

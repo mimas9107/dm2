@@ -40,8 +40,12 @@
           </div>
         </div>
 
-        <!-- 角色入口 -->
+        <!-- 角色入口與使用說明 -->
         <nav class="app-header__nav" aria-label="角色切換">
+          <button type="button" id="nav-instructions" data-action="open-cms" data-key="intro" class="app-navlink app-navlink--muted app-navlink--shadow">
+            <i data-lucide="help-circle" class="icon icon--xs icon--brand"></i>
+            <span>使用說明</span>
+          </button>
           <a id="nav-user-track" href="user_order_track.html" class="app-navlink app-navlink--brand app-navlink--shadow">
             <i data-lucide="radar" class="icon icon--xs icon--brand"></i>
             <span>訂單追蹤</span>
@@ -121,13 +125,24 @@
           </div>
         </div>
       </article>
+
+      <!-- 所有店家卡片列表 -->
+      <section class="store-directory">
+        <div class="store-directory__header">
+          <h2 class="section-heading">
+            <i data-lucide="store" class="icon icon--xs icon--brand"></i> 探索所有合作店家
+          </h2>
+          <span id="store-directory-count" class="badge badge--brand badge--mono">共 7 家</span>
+        </div>
+        <div id="store-directory-grid" class="store-directory__grid">
+          <!-- 由 JS 動態渲染所有店家卡片 -->
+        </div>
+      </section>
     </main>
 
     <footer class="app-footer app-footer--bordered">
       <nav class="link-row" aria-label="平台資訊">
         <button type="button" data-action="open-cms" data-key="terms" class="link-inline">服務條款</button>
-        <span class="dot-sep" aria-hidden="true">•</span>
-        <button type="button" data-action="open-cms" data-key="support" class="link-inline">客服說明</button>
         <span class="dot-sep" aria-hidden="true">•</span>
         <button type="button" data-action="open-cms" data-key="intro" class="link-inline">使用介紹</button>
         <span class="dot-sep" aria-hidden="true">•</span>

@@ -62,9 +62,21 @@ function syncRestaurantsWithSharedState() {
 /* --------------------------------------------------------------------------
    輪播
    -------------------------------------------------------------------------- */
+function renderCarouselDots() {
+  const container = $('.carousel__dots');
+  if (!container) return;
+  if (container.children.length !== restaurantsData.length) {
+    container.innerHTML = restaurantsData.map((_, idx) => `
+      <button type="button" data-action="go-slide" data-index="${idx}" class="indicator-bar" aria-label="第 ${idx + 1} 張"></button>
+    `).join('');
+  }
+}
+
 function updateCarousel() {
   const item = restaurantsData[currentSlide];
   if (!item) return;
+
+  renderCarouselDots();
 
   $('#carousel-img').src = item.heroImg;
   $('#carousel-tag').innerText = item.active ? item.tag : `${item.tag} (暫停接單)`;
@@ -526,12 +538,66 @@ function focusCartBottom() {
 }
 
 /* --------------------------------------------------------------------------
+   所有店家卡片目錄
+   -------------------------------------------------------------------------- */
+function renderStoreDirectory() {
+  const grid = $('#store-directory-grid');
+  const countBadge = $('#store-directory-count');
+  if (!grid) return;
+  if (countBadge) {
+    countBadge.innerText = `共 ${restaurantsData.length} 家`;
+  }
+
+  grid.innerHTML = restaurantsData.map(item => {
+    const statusTag = item.active
+      ? `<span class="tag tag--brand">${escapeHtml(item.tag)}</span>`
+      : `<span class="tag tag--suspended">暫停接單</span>`;
+
+    return `
+      <article class="store-dir-card ${item.active ? '' : 'store-dir-card--inactive'}" data-action="open-store-by-id" data-store-id="${item.id}" role="button" tabindex="0" aria-label="${escapeHtml(item.name)} 菜單介紹">
+        <div class="store-dir-card__media">
+          <img src="${escapeHtml(item.heroImg)}" alt="${escapeHtml(item.name)}" class="store-dir-card__img" loading="lazy">
+          <div class="store-dir-card__tags">
+            ${statusTag}
+          </div>
+          <span class="store-dir-card__dish">${escapeHtml(item.dish)}</span>
+        </div>
+        <div class="store-dir-card__body">
+          <div class="store-dir-card__title-row">
+            <h3 class="store-dir-card__title">${escapeHtml(item.name)}</h3>
+            <span class="store-dir-card__price">${escapeHtml(item.price)}</span>
+          </div>
+          <p class="store-dir-card__desc">${escapeHtml(item.desc)}</p>
+          <div class="store-dir-card__meta">
+            <span class="store-dir-card__rating">
+              <i data-lucide="star" class="icon icon--xs icon--star"></i>
+              <span>${escapeHtml(item.rating)}</span>
+            </span>
+            <span class="store-dir-card__time">
+              <i data-lucide="clock" class="icon icon--xs"></i>
+              <span>${escapeHtml(item.deliverTime)}</span>
+            </span>
+            <span class="store-dir-card__min">${escapeHtml(item.minQtyText)}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  refreshIcons();
+}
+
+/* --------------------------------------------------------------------------
    事件委派
    -------------------------------------------------------------------------- */
 function bindActions() {
   delegateActions({
     'go-home': () => goToHome(),
     'open-current-restaurant': () => openCurrentRestaurant(),
+    'open-store-by-id': (el) => {
+      const id = Number(el.dataset.storeId);
+      if (id) openRestaurant(id);
+    },
     'prev-slide': () => prevSlide(),
     'next-slide': () => nextSlide(),
     'go-slide': (el) => goToSlide(el.dataset.index),
@@ -574,6 +640,7 @@ function initApp() {
   syncRestaurantsWithSharedState();
   refreshIcons();
   updateCarousel();
+  renderStoreDirectory();
   startCarousel();
   bindActions();
 
@@ -588,6 +655,7 @@ function initApp() {
   subscribe(() => {
     syncRestaurantsWithSharedState();
     updateCarousel();
+    renderStoreDirectory();
     if (!$('#page-detail').classList.contains('hidden')) {
       refreshDetailView();
     }

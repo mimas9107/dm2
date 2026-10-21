@@ -209,13 +209,19 @@ function renderOrder() {
     btnAcceptText.innerText = '已接受訂單（查看詳情）';
     stageControls.classList.remove('hidden');
 
-    [0, 1, 2].forEach(s => {
-      const sBtn = document.getElementById(`stage-btn-${s}`);
-      if (sBtn) {
-        sBtn.classList.toggle('is-active', s === curStep);
-        sBtn.setAttribute('aria-pressed', s === curStep ? 'true' : 'false');
+    const btnComplete = $('#btn-complete-making');
+    const btnCompleteText = $('#btn-complete-making-text');
+    if (btnComplete) {
+      if (curStep >= 1) {
+        btnComplete.classList.add('is-completed');
+        btnComplete.disabled = true;
+        if (btnCompleteText) btnCompleteText.innerText = '已製作完成（外送員配送中）';
+      } else {
+        btnComplete.classList.remove('is-completed');
+        btnComplete.disabled = false;
+        if (btnCompleteText) btnCompleteText.innerText = '已製作完成';
       }
-    });
+    }
   } else {
     badge.innerText = soundOn ? '🔔 待接單 (響鈴提醒中)' : '🔕 待接單 (後台已設靜音)';
     badge.className = 'tag tag--brand';
@@ -296,6 +302,7 @@ function bindActions() {
   delegateActions({
     'switch-order': (el) => switchMockOrder(el.dataset.index),
     'accept-order': () => acceptOrder(),
+    'complete-making': () => updateOrderStepFromStore(1),
     'set-step': (el) => updateOrderStepFromStore(el.dataset.step),
     'close-accepted-modal': () => closeAcceptedModal()
   });

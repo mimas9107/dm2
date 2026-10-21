@@ -3,8 +3,8 @@ name: "README.md"
 description: "來電送 CALL & DELIVER — 午間專送平台前端"
 created_date: "2026/10/21"
 modified_date: "2026/10/22"
-project_version: "2.0.0"
-document_version: "2.0.0"
+project_version: "2.1.0"
+document_version: "2.1.0"
 agent_sign: ['human/justin', 'claude/claude-sonnet-4-6']
 ---
 
@@ -164,4 +164,4 @@ node tests/smoke.mjs          # 4 頁核心流程回歸測試（含跨分頁即�
 | `CHANGELOG.md` | 版本號的**單一事實來源** |
 | `README.md` / `PLAN.md` / `TASK.md` | `project_version` 必須與 CHANGELOG 一致 |
 
-目前版本：**2.0.0**
+目前版本：**2.1.0**

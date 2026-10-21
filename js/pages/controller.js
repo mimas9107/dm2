@@ -295,6 +295,9 @@ function switchCmsDoc(idx) {
 }
 
 function renderCmsContent() {
+  if (currentCmsIdx >= cmsDocsData.length) {
+    currentCmsIdx = 0;
+  }
   const doc = cmsDocsData[currentCmsIdx];
   if (!doc) return;
 

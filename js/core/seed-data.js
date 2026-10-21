@@ -82,6 +82,98 @@ export const restaurants = [
       { id: 302, name: "水煮嫩煎板腱牛便當", price: 165, desc: "天然海鹽提味，豐富優質蛋白質。", img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80" },
       { id: 303, name: "雙倍時蔬高纖水煮餐", price: 110, desc: "無肉蔬食首選，五彩時蔬搭烤地瓜。", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" }
     ]
+  },
+  {
+    id: 4,
+    name: "炙焰炭烤燒肉丼",
+    tag: "炭香濃郁",
+    address: "台北市中山區南京東路二段 88 號",
+    heroImg: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1000&q=80",
+    phone: "02-2541-6677",
+    hours: "11:00 - 14:00",
+    rating: "4.8",
+    deliverTime: "20-30 分",
+    minQty: 2,
+    minQtyText: "滿 2 份送",
+    active: true,
+    soundEnabled: true,
+    desc: "特選安格斯牛五花搭配直火炙烤醬汁，焦香四溢。",
+    dish: "炭香特選牛五花丼",
+    price: "NT$ 160 起",
+    menu: [
+      { id: 401, name: "炭香特選牛五花丼", price: 160, desc: "精選牛五花直火逼出油脂，香氣四溢。", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80" },
+      { id: 402, name: "醬烤松阪豬肉定食", price: 175, desc: "黃金六兩松阪豬，爽脆多汁不膩口。", img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80" },
+      { id: 403, name: "炭火蒲燒鰻魚便當", price: 220, desc: "經典關東蒲燒工法，醬香濃郁厚實。", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" }
+    ]
+  },
+  {
+    id: 5,
+    name: "越味南洋料理坊",
+    tag: "清爽開胃",
+    address: "台北市內湖區瑞光路 258 號 1 樓",
+    heroImg: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=1000&q=80",
+    phone: "02-8797-1234",
+    hours: "11:00 - 13:30",
+    rating: "4.7",
+    deliverTime: "25-35 分",
+    minQty: 3,
+    minQtyText: "滿 3 份送",
+    active: true,
+    soundEnabled: true,
+    desc: "慢燉牛骨高湯搭配新鮮九層塔與香檸，清爽無負擔。",
+    dish: "越式鮮牛肉河粉套餐",
+    price: "NT$ 140 起",
+    menu: [
+      { id: 501, name: "越式鮮牛肉河粉套餐", price: 150, desc: "生牛肉澆淋滾燙高湯，附新鮮檸檬角。", img: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=400&q=80" },
+      { id: 502, name: "香茅嫩煎雞腿飯", price: 135, desc: "南洋香茅醃漬入味，皮脆多汁。", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=400&q=80" },
+      { id: 503, name: "鮮蝦生春捲特餐", price: 140, desc: "薄透米紙包裹鮮蝦鮮蔬，佐酸甜魚露。", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" }
+    ]
+  },
+  {
+    id: 6,
+    name: "慢燉老火煲仔飯",
+    tag: "經典港式",
+    address: "台北市中正區重慶南路一段 45 號",
+    heroImg: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1000&q=80",
+    phone: "02-2388-5566",
+    hours: "10:30 - 13:30",
+    rating: "4.9",
+    deliverTime: "20-30 分",
+    minQty: 2,
+    minQtyText: "滿 2 份送",
+    active: true,
+    soundEnabled: true,
+    desc: "傳承古法砂鍋慢燉，焦脆鍋巴淋上特調甜豉油。",
+    dish: "正宗廣式臘味煲仔飯",
+    price: "NT$ 150 起",
+    menu: [
+      { id: 601, name: "正宗廣式臘味煲仔飯", price: 150, desc: "特級臘腸肝腸香氣四溢，焦香鍋巴。", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80" },
+      { id: 602, name: "豆豉排骨滑雞煲仔飯", price: 155, desc: "排骨嫩滑豉汁回甘，米粒吸飽精華。", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" },
+      { id: 603, name: "蜜汁叉燒雙拼便當", price: 135, desc: "厚切焦糖蜜汁叉燒，經典港式風味。", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80" }
+    ]
+  },
+  {
+    id: 7,
+    name: "蔬心綠田植化素餐盒",
+    tag: "全植蔬食",
+    address: "台北市信義區仁愛路四段 502 號",
+    heroImg: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1000&q=80",
+    phone: "02-2720-9988",
+    hours: "11:00 - 14:00",
+    rating: "4.8",
+    deliverTime: "15-25 分",
+    minQty: 2,
+    minQtyText: "滿 2 份送",
+    active: true,
+    soundEnabled: false,
+    desc: "產地直送有機時蔬搭配非基改鹽滷豆腐與紅藜麥飯。",
+    dish: "彩虹植化素元氣餐盒",
+    price: "NT$ 135 起",
+    menu: [
+      { id: 701, name: "彩虹植化素元氣餐盒", price: 135, desc: "五色當令時蔬，低溫烘烤鎖住原味。", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" },
+      { id: 702, name: "鹽滷豆腐照燒鮮菇飯", price: 125, desc: "非基改手工鹽滷豆腐，甘甜照燒醬汁。", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" },
+      { id: 703, name: "香煎未來植物肉排便當", price: 160, desc: "高蛋白質植物蛋白排，肉感紮實。", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80" }
+    ]
   }
 ];
 
@@ -91,7 +183,11 @@ export const restaurants = [
 export const stores = [
   { id: 1, name: "禾風堂手作便當", soundAlert: "叮咚和弦", soundEnabled: true, hours: "10:30 - 13:30", minOrder: "滿 3 份送", minQty: 3, active: true },
   { id: 2, name: "築地漁火日式定食", soundAlert: "叮咚和弦", soundEnabled: true, hours: "11:00 - 14:00", minOrder: "滿 2 份送", minQty: 2, active: true },
-  { id: 3, name: "青嵐健康水煮餐", soundAlert: "靜音提示", soundEnabled: false, hours: "10:30 - 13:00", minOrder: "滿 2 份送", minQty: 2, active: true }
+  { id: 3, name: "青嵐健康水煮餐", soundAlert: "靜音提示", soundEnabled: false, hours: "10:30 - 13:00", minOrder: "滿 2 份送", minQty: 2, active: true },
+  { id: 4, name: "炙焰炭烤燒肉丼", soundAlert: "叮咚和弦", soundEnabled: true, hours: "11:00 - 14:00", minOrder: "滿 2 份送", minQty: 2, active: true },
+  { id: 5, name: "越味南洋料理坊", soundAlert: "叮咚和弦", soundEnabled: true, hours: "11:00 - 13:30", minOrder: "滿 3 份送", minQty: 3, active: true },
+  { id: 6, name: "慢燉老火煲仔飯", soundAlert: "叮咚和弦", soundEnabled: true, hours: "10:30 - 13:30", minOrder: "滿 2 份送", minQty: 2, active: true },
+  { id: 7, name: "蔬心綠田植化素餐盒", soundAlert: "靜音提示", soundEnabled: false, hours: "11:00 - 14:00", minOrder: "滿 2 份送", minQty: 2, active: true }
 ];
 
 /* --------------------------------------------------------------------------
@@ -157,7 +253,7 @@ export const orders = [
 ];
 
 /* --------------------------------------------------------------------------
-   後台編輯內容（平台條款 / 客服說明 / 使用介紹 / 常用問答）
+   後台編輯內容（平台條款 / 使用介紹 / 常用問答）
    -------------------------------------------------------------------------- */
 export const cmsDocs = [
   {
@@ -166,13 +262,6 @@ export const cmsDocs = [
     fullTitle: "服務條款",
     updatedAt: "2026/10/21 16:30",
     content: "1. 訂單確認規範：顧客透過「來電送」送出訂單並經電話確認後，店家即刻開始備餐，恕不接受臨時改單或無故棄單。\n2. 棄單黑名單機制：若顧客累計無故棄單或拒收達 2 次（含）以上，系統管理員有權將該電話號碼列為黑名單並取消其訂餐權限。\n3. 準時專送承諾：合作店家均享免外送費門檻優惠，並於指定午餐時段準時送達。"
-  },
-  {
-    key: "support",
-    shortLabel: "客服說明",
-    fullTitle: "客服說明",
-    updatedAt: "2026/10/21 16:35",
-    content: "【來電送客服中心】\n• 服務專線：02-2345-6789\n• 服務時段：週一至週五 09:30 - 18:00\n• 緊急訂單協助：若餐點逾時超過 15 分鐘或品項有誤，請直接撥打店家專線或聯繫線上客服，我們將立即為您追蹤處理。"
   },
   {
     key: "intro",
@@ -186,7 +275,7 @@ export const cmsDocs = [
     shortLabel: "常用問答",
     fullTitle: "常用問答 (FAQ)",
     updatedAt: "2026/10/21 16:45",
-    content: "Q1：請問外送需要運費嗎？\nA1：只要湊滿該店家指定的最低外送份數（例如滿 2 份或 3 份），全面享免外送費！\n\nQ2：為什麼我的帳號無法下單？\nA2：若曾有多次未接電話或棄單紀錄，帳號將被系統列入黑名單停權；如需申訴復權請聯繫客服專線。\n\nQ3：可以同時訂購不同店家的餐點嗎？\nA3：可以！您可以在訂單追蹤頁面透過上方單號（如 #101、#102）切換查看每張訂單的獨立配送進度。"
+    content: "Q1：請問外送需要運費嗎？\nA1：只要湊滿該店家指定的最低外送份數（例如滿 2 份或 3 份），全面享免外送費！\n\nQ2：為什麼我的帳號無法下單？\nA2：若曾有多次未接電話或棄單紀錄，帳號將被系統列入黑名單停權；如需申訴復權請向管理員反映。\n\nQ3：可以同時訂購不同店家的餐點嗎？\nA3：可以！您可以在訂單追蹤頁面透過上方單號（如 #101、#102）切換查看每張訂單的獨立配送進度。"
   }
 ];
 
