@@ -91,3 +91,9 @@ coverage/
 *.tmp
 *.temp
 .cache/
+
+
+# ai agent context by user
+AGENTS.md
+GEMINI.md
+CLAUDE.md
